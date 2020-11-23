@@ -5,6 +5,8 @@
     Web: http://www.jarzebski.pl
     (c) 2014 by Korneliusz Jarzebski
 */
+#include <SoftwareSerial.h>
+SoftwareSerial s(5,6);
 
 #include <Wire.h>
 #include <MPU6050.h>
@@ -14,6 +16,8 @@ MPU6050 mpu;
 // Timers
 unsigned long timer = 0;
 float timeStep = 0.01;
+float timeStep_send = 0.5;
+float current_milis = millis();
 
 // Pitch, Roll and Yaw values
 float pitch = 0;
@@ -22,6 +26,7 @@ float yaw = 0;
 
 void setup() 
 {
+  s.begin(115200);
   Serial.begin(115200);
 
   // Initialize MPU6050
@@ -60,8 +65,28 @@ void loop()
   Serial.print(" Yaw = ");
   Serial.println(yaw);
 
+  char message[30];
+  sprintf(message, "\"y\":%d, \"p\":%d, \"r\":%d", (int)yaw, (int)pitch, (int)roll);
+
+  Serial.println(message);
+  Serial.print("s.available: ");
+  Serial.println(s.available());
+  if(s.available()>0)
+  {
+    
+    if (millis() - current_milis > timeStep_send * 1000)
+    {
+      
+      current_milis = millis();
+      Serial.println("Printed to s(5,6)");
+      s.write(message);
+//      Serial.print("Printed to s(5,6)");
+//      Serial.println(message);
+    }
+  }
+
   // Wait to full timeStep period
-  if ((timeStep*1000) - (millis() - timer) > 0)
+  if (((timeStep*1000) - (millis() - timer)) > 0)
   {
     delay((timeStep*1000) - (millis() - timer));
   }
