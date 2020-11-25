@@ -86,7 +86,7 @@ void loop()
   }
 
   // Wait to full timeStep period
-  if (((timeStep*1000) - (millis() - timer)) > 0)
+  if (((timeStep*1000) - (millis() - timer)) > 50)
   {
     delay((timeStep*1000) - (millis() - timer));
   }
