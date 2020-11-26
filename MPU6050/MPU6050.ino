@@ -58,19 +58,21 @@ void loop()
   yaw = yaw + norm.ZAxis * timeStep;
 
   // Output raw
-  Serial.print(" Pitch = ");
+//  Serial.print(" Pitch = ");
   Serial.print(pitch);
-  Serial.print(" Roll = ");
+//  Serial.print(" Roll = ");
+  Serial.print(":");
   Serial.print(roll);  
-  Serial.print(" Yaw = ");
+//  Serial.print(" Yaw = ");
+  Serial.print(":");
   Serial.println(yaw);
 
   char message[30];
   sprintf(message, "\"y\":%d, \"p\":%d, \"r\":%d", (int)yaw, (int)pitch, (int)roll);
 
-  Serial.println(message);
-  Serial.print("s.available: ");
-  Serial.println(s.available());
+//  Serial.println(message);
+//  Serial.print("s.available: ");
+//  Serial.println(s.available());
   if(s.available()>0)
   {
     
@@ -78,7 +80,7 @@ void loop()
     {
       
       current_milis = millis();
-      Serial.println("Printed to s(5,6)");
+//      Serial.println("Printed to s(5,6)");
       s.write(message);
 //      Serial.print("Printed to s(5,6)");
 //      Serial.println(message);

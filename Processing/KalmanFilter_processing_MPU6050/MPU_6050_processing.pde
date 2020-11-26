@@ -58,7 +58,7 @@ void setup ()
   initArtificialHorizon();
 
   // Serial
-  myPort = new Serial(this, "COM5", 115200);
+  myPort = new Serial(this, "COM9", 115200);
   myPort.bufferUntil(10);
 }
 
@@ -157,6 +157,7 @@ void drawChart(String title, String[] series, float[][] chart, int x, int y, int
 
   for (float t = min; t <= max; t=t+step)
   {
+    print("t", t);
     float line = map(t, min, max, 0, h);
     pgChart.line(40, h-line+30, (maxSamples*sampleStep)+40, h-line+30);
     pgChart.fill(200, 200, 200);
@@ -182,8 +183,14 @@ void drawChart(String title, String[] series, float[][] chart, int x, int y, int
       if (d0 > max) d0 = max;
       if (d1 < min) d1 = min;
       if (d1 > max) d1 = max;
-
+       
+      print("d0", d0);
+      
+      if (d0 == Float.NaN) {
+        continue;
+      }
       float v0 = map(d0, min, max, 0, h);
+      print("d0", d1);
       float v1 = map(d1,   min, max, 0, h);
 
       pgChart.line(((i-1)*sampleStep)+40, h-v0+30, (i*sampleStep)+40, h-v1+30);
@@ -248,6 +255,7 @@ void drawArtificialHorizon(int x, int y, float[][] pyr)
   pgArtificialHorizonRing = createGraphics(ahWidth+20, ahHeight+20); 
 
   float horizon = getArtificialHorizon(radians(pyr[0][actualSample-1]));
+  pgArtificialHorizon.beginDraw();
   pgArtificialHorizon.clear();
   pgArtificialHorizon.beginDraw();
 
