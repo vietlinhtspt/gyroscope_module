@@ -15,12 +15,15 @@ MPU6050 mpu;
 
 KalmanFilter kalmanX(0.001, 0.003, 0.03);
 KalmanFilter kalmanY(0.001, 0.003, 0.03);
+KalmanFilter kalmanZ(0.001, 0.003, 0.03);
 
 float accPitch = 0;
 float accRoll = 0;
+float accYaw = 0;
 
 float kalPitch = 0;
 float kalRoll = 0;
+float kalYaw = 0;
 
 void setup() 
 {

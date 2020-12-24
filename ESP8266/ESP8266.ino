@@ -12,7 +12,7 @@ const char* password = "kkkc2016"; // Enter WiFi password
 const char* mqttServer = "broker.emqx.io";
 const int mqttPort = 1883;
 
-const char* TOPIC = "linhnv/gyro";
+const char* TOPIC = "linhnv/gyro/sensor/01";
 
 #define LED 2 //Define blinking LED pin
 
@@ -25,6 +25,26 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
 
 int data;
+
+void reconnect()
+{
+  while (!client.connected()) 
+    {
+        Serial.println("Connecting to MQTT...");
+ 
+        if (client.connect("17020845"))
+        {
+            Serial.println("connected");  
+        } else {
+            Serial.print("failed with state ");
+            Serial.print(client.state());
+            delay(500);
+            digitalWrite(LED, LOW); // Turn the LED on (Note that LOW is the voltage level)
+            delay(1500);
+            digitalWrite(LED, HIGH); // Turn the LED off by making the voltage HIGH
+        }
+    }
+}
 
 void setup() 
 {
@@ -56,7 +76,7 @@ void setup()
     {
         Serial.println("Connecting to MQTT...");
  
-        if (client.connect("ESP8266Client"))
+        if (client.connect("129skdfhnsdfh4n"))
         {
             Serial.println("connected");  
         } else {
@@ -70,7 +90,7 @@ void setup()
     }
  
 //    client.publish(TOPIC, "Hello from ESP8266"); //Topic name
-    client.subscribe(TOPIC);
+//    client.subscribe(TOPIC);
 }
 
 void callback(char* topic, byte* payload, unsigned int length)
@@ -99,6 +119,10 @@ void callback(char* topic, byte* payload, unsigned int length)
 void loop() 
 {
   s.write("s");
+
+  if (!client.connected()) {
+      reconnect();
+  }
   
   if (s.available()>0)
   {
@@ -113,7 +137,7 @@ void loop()
       if (content != "") {
           Serial.println(content);
           timeClient.update();
-          String jsonMessage = String("{\"time\":") + timeClient.getEpochTime() + String(", ") + String(content) + String("}");
+          String jsonMessage = timeClient.getEpochTime() + String(",") + String(content);
           Serial.print("JSON message: ");
           char* char_jsonMessage = (char*) malloc(100);
           Serial.println(jsonMessage);
