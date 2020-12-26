@@ -118,7 +118,7 @@ void callback(char* topic, byte* payload, unsigned int length)
 
 void loop() 
 {
-  s.write("s");
+//  s.write("s");
 
   if (!client.connected()) {
       reconnect();

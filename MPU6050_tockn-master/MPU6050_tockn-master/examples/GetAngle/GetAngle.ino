@@ -23,12 +23,12 @@ void setup() {
 
 void loop() {
   mpu6050.update();
-  Serial.print("angleX : ");
-  Serial.print(mpu6050.getAngleX());
-  Serial.print("\tangleY : ");
-  Serial.print(mpu6050.getAngleY());
-  Serial.print("\tangleZ : ");
-  Serial.println(mpu6050.getAngleZ());
+//  Serial.print("angleX : ");
+//  Serial.print(mpu6050.getAngleX());
+//  Serial.print("\tangleY : ");
+//  Serial.print(mpu6050.getAngleY());
+//  Serial.print("\tangleZ : ");
+//  Serial.println(mpu6050.getAngleZ());
 
   pitch = mpu6050.getAngleX();
   roll = mpu6050.getAngleY();
@@ -42,11 +42,16 @@ void loop() {
 //  Serial.println(message);
 //  Serial.print("s.available: ");
 //  Serial.println(s.available());
-  if(s.available()>0)
+
+  Serial.print("Availble for write: ");
+  Serial.println(s.available());
+      
+  if(s.available()>15)
   {
-    Serial.println(s.availableForWrite());
+    
     if (millis() - current_milis > timeStep_send * 1000)
     {   
+      
       current_milis = millis();
 //      Serial.println("Printed to s(5,6)");
       s.write(message, 15);

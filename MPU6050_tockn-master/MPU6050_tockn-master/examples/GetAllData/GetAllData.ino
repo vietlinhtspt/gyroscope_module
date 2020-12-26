@@ -16,13 +16,13 @@ void setup() {
 void loop() {
   mpu6050.update();
 
-  Serial.print("accX : ");Serial.print(mpu6050.getAccX());
-  Serial.print("\taccY : ");Serial.print(mpu6050.getAccY());
-  Serial.print("\taccZ : ");Serial.println(mpu6050.getAccZ());
+  Serial.print(mpu6050.getAccX());
+  Serial.print(",");Serial.print(mpu6050.getAccY());
+  Serial.print(",");Serial.println(mpu6050.getAccZ());
 
-  Serial.print("gyroX : ");Serial.print(mpu6050.getGyroX());
-  Serial.print("\tgyroY : ");Serial.print(mpu6050.getGyroY());
-  Serial.print("\tgyroZ : ");Serial.println(mpu6050.getGyroZ());
+  Serial.print(",");Serial.print(mpu6050.getGyroX());
+  Serial.print(",");Serial.print(mpu6050.getGyroY());
+  Serial.print(",");Serial.println(mpu6050.getGyroZ());
 
 //  if(millis() - timer > 1000){
 //    
